@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Synchrolog.SDK.Client;
+using Synchrolog.SDK.Helper;
 using System;
 using System.Threading.Tasks;
 
-namespace synchrolog_dotnet
+namespace Synchrolog.SDK.Middleware
 {
     class SynchrologMiddleware
     {
@@ -16,7 +18,7 @@ namespace synchrolog_dotnet
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, ISynchrologClient synchrologClient)
+        public async Task InvokeAsync(HttpContext context, ISynchrologClient synchrologClient, IHttpContextWrapper httpContextWrapper)
         {
             if(context.Request.Path.Value == "/synchrolog-time")
             {
@@ -50,11 +52,8 @@ namespace synchrolog_dotnet
                 }
                 catch (Exception ex)
                 {
-                    var requestIpAddress = context.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-                    var userAgent = context.Request.Headers["User-Agent"].ToString();
-
                     await synchrologClient.TrackErrorAsync(anonymousId, userId, DateTime.UtcNow, ex
-                        , requestIpAddress, userAgent);
+                        , httpContextWrapper.GetRequestIpAddress(), httpContextWrapper.GetUserAgent());
 
                     throw;
                 }

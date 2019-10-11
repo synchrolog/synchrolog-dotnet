@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace synchrolog_dotnet
+namespace Synchrolog.SDK.Client
 {
     interface ISynchrologClient
     {

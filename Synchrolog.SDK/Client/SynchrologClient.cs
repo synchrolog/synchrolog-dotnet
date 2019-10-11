@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Synchrolog.SDK.Model;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace synchrolog_dotnet
+namespace Synchrolog.SDK.Client
 {
     class SynchrologClient : ISynchrologClient
     {
@@ -74,7 +75,7 @@ namespace synchrolog_dotnet
 
             request.Content = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(request);
+            await _httpClient.SendAsync(request);
         }
     }
 }

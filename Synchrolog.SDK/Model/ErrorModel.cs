@@ -1,4 +1,4 @@
-﻿namespace synchrolog_dotnet
+﻿namespace Synchrolog.SDK.Model
 {
     class ErrorModel
     {
