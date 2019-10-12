@@ -13,7 +13,7 @@ namespace Synchrolog.SDK.Test
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSynchrolog("ss53et50z2jn24ltn6yk7xypfsc7pcp8");
+            services.AddSynchrolog("ACCESS_TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
