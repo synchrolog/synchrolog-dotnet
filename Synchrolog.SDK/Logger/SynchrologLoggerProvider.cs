@@ -8,7 +8,6 @@ namespace Synchrolog.SDK.Logger
     {
         private bool _isDisposed = false; // To detect redundant calls
         private ISynchrologClient _synchrologClient;
-        private SynchrologLogger _synchlogLogger;
         private LogLevel _logLevel;
         private IHttpContextWrapper _httpContextWrapper;
 
@@ -21,12 +20,7 @@ namespace Synchrolog.SDK.Logger
 
         public ILogger CreateLogger(string categoryName)
         {
-            if (_synchlogLogger == null)
-            {
-                _synchlogLogger = new SynchrologLogger(_logLevel, _synchrologClient, _httpContextWrapper);
-            }
-
-            return _synchlogLogger;
+            return new SynchrologLogger(_logLevel, categoryName, _synchrologClient, _httpContextWrapper);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -35,14 +29,14 @@ namespace Synchrolog.SDK.Logger
             {
                 if (disposing)
                 {
-                    _synchlogLogger = null;
+                    _synchrologClient = null;
+                    _httpContextWrapper = null;
                 }
 
                 _isDisposed = true;
             }
         }
 
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
             Dispose(true);

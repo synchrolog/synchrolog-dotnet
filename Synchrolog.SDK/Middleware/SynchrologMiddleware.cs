@@ -20,7 +20,7 @@ namespace Synchrolog.SDK.Middleware
 
         public async Task InvokeAsync(HttpContext context, ISynchrologClient synchrologClient, IHttpContextWrapper httpContextWrapper)
         {
-            if(context.Request.Path.Value == "/synchrolog-time")
+            if (context.Request.Path.Value == "/synchrolog-time")
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
@@ -36,7 +36,7 @@ namespace Synchrolog.SDK.Middleware
                     context.Response.Cookies.Append(ANONYMOUS_ID, anonymousId);
                 }
 
-                if(!context.Request.Cookies.TryGetValue(USER_ID, out string userId))
+                if (!context.Request.Cookies.TryGetValue(USER_ID, out string userId))
                 {
                     userId = context.Request.HttpContext.User.Identity.Name;
 
@@ -46,17 +46,7 @@ namespace Synchrolog.SDK.Middleware
                     }
                 }
 
-                try
-                {
-                    await _next(context);
-                }
-                catch (Exception ex)
-                {
-                    await synchrologClient.TrackErrorAsync(anonymousId, userId, DateTime.UtcNow, ex
-                        , httpContextWrapper.GetRequestIpAddress(), httpContextWrapper.GetUserAgent());
-
-                    throw;
-                }
+                await _next(context);
             }
         }
     }

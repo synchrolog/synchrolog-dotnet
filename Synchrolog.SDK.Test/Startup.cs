@@ -21,7 +21,7 @@ namespace Synchrolog.SDK.Test
         {
             app.UseSynchrolog();
 
-            loggerFactory.AddSynchrologProvider(app, LogLevel.Information);
+            loggerFactory.AddSynchrologProvider(app);
 
             if (env.IsDevelopment())
             {
@@ -39,6 +39,8 @@ namespace Synchrolog.SDK.Test
                     await context.Response.WriteAsync("Synchrolog World!");
 
                     logger.LogInformation("Testing SDK {SDK}...", "Synchrolog");
+
+                    throw new System.Exception("Testing SDK exception logging...");
                 });
             });
         }

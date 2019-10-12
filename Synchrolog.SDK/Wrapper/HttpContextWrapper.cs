@@ -15,28 +15,48 @@ namespace Synchrolog.SDK.Helper
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public bool HasAnonymousId()
+        {
+            return !string.IsNullOrEmpty(GetAnonymousId());
+        }
+
         public string GetRequestIpAddress()
         {
-            return _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            return _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
 
         public string GetUserAgent()
         {
-            return _httpContextAccessor.HttpContext.Request.Headers[USER_AGENT].ToString();
+            return _httpContextAccessor.HttpContext?.Request.Headers[USER_AGENT].ToString();
         }
 
-        public string GetAnonymousIs()
+        public string GetAnonymousId()
         {
-            _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(ANONYMOUS_ID, out string anonymousId);
+            var anonymousId = default(string);
+
+            if (IsInsideHttpContext())
+            {
+                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(ANONYMOUS_ID, out anonymousId);
+            }
 
             return anonymousId ?? string.Empty;
         }
 
         public string GetUserId()
         {
-            _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(USER_ID, out string userId);
+            var userId = default(string);
+
+            if (IsInsideHttpContext())
+            {
+                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(USER_ID, out userId);
+            }
 
             return userId ?? string.Empty;
+        }
+
+        bool IsInsideHttpContext()
+        {
+            return _httpContextAccessor.HttpContext != null;
         }
     }
 }

@@ -2,7 +2,8 @@
 {
     interface IHttpContextWrapper
     {
-        string GetAnonymousIs();
+        bool HasAnonymousId();
+        string GetAnonymousId();
         string GetRequestIpAddress();
         string GetUserAgent();
         string GetUserId();
