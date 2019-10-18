@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Synchrolog.SDK.Client;
 using Synchrolog.SDK.Helper;
 using System;
 using System.Threading.Tasks;
@@ -18,14 +17,14 @@ namespace Synchrolog.SDK.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, ISynchrologClient synchrologClient, IHttpContextWrapper httpContextWrapper)
+        public async Task InvokeAsync(HttpContext context)
         {
             if (context.Request.Path.Value == "/synchrolog-time")
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
 
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { time = DateTime.UtcNow }));
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { time = DateTime.UtcNow }, new Iso8601DateTimeConverter()));
             }
             else
             {

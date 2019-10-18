@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Synchrolog.SDK.Helper;
 using Synchrolog.SDK.Model;
 using System;
 using System.Net.Http;
@@ -71,7 +72,7 @@ namespace Synchrolog.SDK.Client
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
 
-            var content = JsonConvert.SerializeObject(payload);
+            var content = JsonConvert.SerializeObject(payload, new Iso8601DateTimeConverter());
 
             request.Content = new StringContent(content, Encoding.UTF8, "application/json");
 

@@ -13,7 +13,7 @@ namespace Synchrolog.SDK.Test
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSynchrolog("ACCESS_TOKEN");
+            services.AddSynchrolog("API_KEY");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,11 +36,16 @@ namespace Synchrolog.SDK.Test
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Synchrolog World!");
+                    await context.Response.WriteAsync("Synchrolog first page!");
 
                     logger.LogInformation("Testing SDK {SDK}...", "Synchrolog");
+                });
 
-                    throw new System.Exception("Testing SDK exception logging...");
+                endpoints.MapGet("/error", async context =>
+                {
+                    await context.Response.WriteAsync("Synchrolog error page!");
+
+                    throw new System.Exception("Testing Synchrolog SDK exception logging...");
                 });
             });
         }
