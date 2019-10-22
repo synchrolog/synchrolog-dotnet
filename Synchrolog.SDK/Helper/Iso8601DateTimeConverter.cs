@@ -6,7 +6,7 @@ namespace Synchrolog.SDK.Helper
     {
         public Iso8601DateTimeConverter()
         {
-            base.DateTimeFormat = "yyyy-MM-ddTHH:mm:ssZ";
+            base.DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         }
     }
 }
